@@ -1,6 +1,9 @@
+import { useContext } from "react/cjs/react.development";
 import Card from "../shared/Card";
+import InfoContext from "../shared/InfoContext";
 
-function TaskFilter({ filterInfo }) {
+function TaskFilter() {
+  const {filterInfo} = useContext(InfoContext)
   return (
     <Card props="taskFilter">
       <span className="filter" onClick={() => filterInfo("All")}>

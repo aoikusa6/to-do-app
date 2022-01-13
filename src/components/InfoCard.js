@@ -1,7 +1,10 @@
 import { FaTimes, FaEdit } from "react-icons/fa";
 import PropTypes from "prop-types";
+import { useContext } from "react";
+import InfoContext from "../shared/InfoContext";
 import Card from "../shared/Card";
-function InfoCard({ item, deleteInfo }) {
+function InfoCard({ item }) {
+  const {deleteInfo} = useContext(InfoContext)
   return (
     <Card props="info">
       <h2>{item.input}</h2>
