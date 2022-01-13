@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useContext } from "react/cjs/react.development";
 import Card from "../shared/Card";
 import InfoContext from "../shared/InfoContext";
@@ -11,7 +11,15 @@ function InputContainer() {
   const [values, setValues] = useState(initialValues);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [message, setMessage] = useState("");
-  const { addInfo } = useContext(InfoContext);
+  const { addInfo, infoEdit, editInfo } = useContext(InfoContext);
+  useEffect(() => {
+    if (editInfo.edit === true) {
+      setBtnDisabled(false)
+      setValues(infoEdit.info)
+      setValues(infoEdit.date)
+      setValues(infoEdit.level)
+    }
+  }, [editInfo])
   const handleInfo = (e) => {
     const { name, value } = e.target;
     const time = new Date(value);
@@ -19,7 +27,6 @@ function InputContainer() {
     setValues({
       ...values,
       [name]: value,
-      isEditing: false,
     });
     if (
       (name === "input" && value === "") ||
