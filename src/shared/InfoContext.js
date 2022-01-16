@@ -4,10 +4,12 @@ const InfoContext = createContext();
 
 export const InfoProvider = ({ children }) => {
   const [info, setInfo] = useState([]);
-  const [infoEdit, setInfoEdit] = useState({
+  const [type, setType] = useState("");
+  const [infoToEdit, setInfoToEdit] = useState({
     item: {},
-    edit: false,
-  })
+    isEdit: false,
+  });
+  let infoToShow = [];
   const addInfo = (newInfo) => {
     newInfo.id = uuidv4();
     setInfo([...info, newInfo]);
@@ -18,19 +20,33 @@ export const InfoProvider = ({ children }) => {
     }
   };
   const filterInfo = (filterBy) => {
-    const filterOptions = ['Normal', 'Intermediate', 'Urgent']
-    if (!filterOptions.includes(filterBy)) return [...info]
-    setInfo(info.filter((info) => info.level === filterBy))
-  }
-  
+    setType(filterBy);
+  };
+  const updateInfo = (id, upditem) => {
+    setInfo(
+      info.map((item) => (item.id === id ? { ...info, ...upditem } : info))
+    );
+  };
   const editInfo = (item) => {
-    setInfoEdit({
+    setInfoToEdit({
       item,
-      edit: true,
-    })
-  }
+      isEdit: true,
+    });
+  };
   return (
-    <InfoContext.Provider value={{ info, addInfo, deleteInfo, filterInfo, editInfo, infoEdit}}>
+    <InfoContext.Provider
+      value={{
+        info,
+        type,
+        updateInfo,
+        addInfo,
+        deleteInfo,
+        filterInfo,
+        editInfo,
+        infoToEdit,
+        infoToShow,
+      }}
+    >
       {children}
     </InfoContext.Provider>
   );

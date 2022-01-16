@@ -1,5 +1,4 @@
 import { FaTimes, FaEdit } from "react-icons/fa";
-import PropTypes from "prop-types";
 import { useContext } from "react";
 import InfoContext from "../shared/InfoContext";
 import Card from "../shared/Card";
@@ -18,8 +17,5 @@ function InfoCard({ item }) {
       <button className="level">{item.level}</button>
     </Card>
   );
-}
-InfoCard.propTypes = {
-  item: PropTypes.object.isRequired,
-};
+  }
 export default InfoCard;

@@ -11,15 +11,13 @@ function InputContainer() {
   const [values, setValues] = useState(initialValues);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [message, setMessage] = useState("");
-  const { addInfo, infoEdit, editInfo } = useContext(InfoContext);
+  const { addInfo, infoToEdit, updateInfo } = useContext(InfoContext);
   useEffect(() => {
-    if (editInfo.edit === true) {
-      setBtnDisabled(false)
-      setValues(infoEdit.info)
-      setValues(infoEdit.date)
-      setValues(infoEdit.level)
+    if (infoToEdit.isEdit) {
+      setBtnDisabled(false);
+      setValues(infoToEdit.item);
     }
-  }, [editInfo])
+  }, [infoToEdit.isEdit]);
   const handleInfo = (e) => {
     const { name, value } = e.target;
     const time = new Date(value);
@@ -52,8 +50,13 @@ function InputContainer() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newInfo = { ...values };
-    addInfo(newInfo);
+    if (infoToEdit.isEdit) {
+      updateInfo(newInfo, infoToEdit.item.id);
+    } else {
+      addInfo(newInfo);
+    }
   };
+
   return (
     <Card props="inputContainer">
       <form onSubmit={handleSubmit}>
